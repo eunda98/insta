@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block head_content %}
+<title>Create new comment</title>
+{% endblock %}
+
+{% load static %}
+{% block container %}
+    <div class="container">
+        <div class="row">
+            {% include "posts/post_card.html" %}
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 col-md-8 offset-md-2 mt-5 p-0 post-container" id="profile-box" style="margin-top: 0px;">
+
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+
+                    <input type="hidden" name="user" value="{{ user.pk}}" />
+                    <input type="hidden" name="profile" value="{{ profile.pk }}" />
+
+                    <div class="form-group" style="margin-top: 5px; width: 97%; margin-left: 10px">
+                        <span >
+                        
+                            <a href="{% url "Detail" request.user.username%}">
+                                {% if request.user.profile.picture %}
+                                    <img src="{{ request.user.profile.picture.url }}" height="35" width="35" class="d-inline-block align-top rounded-circle"/>
+                                {% else%}
+                                    <img src="{% static 'img/default-profile.png' %}" height="35" width="35" class="d-inline-block align-top rounded-circle"/>
+                                {% endif %}
+                            </a>
+                        </span>
+                        <span>
+                            <b style="margin-top: 5px; width: 80%;">{{ request.user.get_full_name  }}</b>
+                        </span>
+                    
+                        <input
+                            class="form-control"
+                            type="text"
+                            name="comment"
+                            placeholder="Add comment"
+                            style="margin-top: 5px;"
+                        
+                        >
+                        <button type="submit" class="btn btn-primary btn-block mt-2" >Publish!</button>
+                    
+                    </div>
+ 
+                </form>
+
+            </div>
+            
+        </div>
+    </div>
+
+{% endblock %}
+
+

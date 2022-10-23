@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block head_content %}
+    <title>Instagram</title>
+{% endblock%}
+<!DOCTYPE html>
+{% load static %}
+{% block container %}
+
+    <div class="container">
+        <div class="row">
+            {% include "posts/post_card.html" %}
+        </div>
+    </div>
+
+    {% for comment in comments %}
+    <div class="col-sm-12 col-md-8 offset-md-2 mt-5 p-0 comment-container">
+        <div class="media pt-3 pl-3 pb-1">
+            <a>
+                {% if comment.profile.picture %}
+                    <img
+                        src="{{ comment.user.profile.picture.url}}"
+                        alt="{{ comment.user.get_full_name }}"
+                        class="mr-3 rounded-circle"
+                        width="35"
+                        height="35"
+                    />
+                    {% else%}
+                    <img
+                        src="{% static 'img/default-profile.png' %}"
+                        alt="{{ comment.user.get_full_name }}"
+                        class="mr-3 rounded-circle"
+                        width="35"
+                        height="35"
+                    />
+                {% endif %}
+            </a>
+        
+            <div>
+                <span class="ml-2 mt-0 mb-2">
+                    <b style="margin-top: 5px;">{{ comment.user.get_full_name  }}</b>
+                </span>
+                <span class="_aacl _aaco _aacu _aacx _aad7 _aade">&nbsp;</span>
+                <span class="ml-2 mt-0 mb-2">{{ comment.content }}</span>
+
+            </div>
+            {% if comment.user == request.user %}
+                <div style="align=right;">
+                    <span class="ml-2 mt-0 mb-2">
+                        <a href="{% url "comments_update" comment.id %}">
+                            <i class="fas fa-pencil-alt" style="color: #000"></i>
+                        </a>
+                    </span>
+                    <span class="ml-2 mt-0 mb-2">
+                        <a href="{% url "comments_delete" comment.id %}">
+                            <i class="fas fa-trash" style="color: #000"></i>
+                        </a>
+                    </span>
+                </div>
+            {% endif %}
+        </div>        
+    </div>
+            {% endfor %}
+        </div>
+    
+{% endblock %}
